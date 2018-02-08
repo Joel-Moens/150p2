@@ -38,10 +38,10 @@ uthread_t uthread_self(void)
 int uthread_create(uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
-	
-	thread_block * tblock;
-	tblock = malloc(sizeof(tblock));
-	tblock-> id = tidCount;
+
+	thread_block* tblock;
+	tblock = malloc(sizeof(thread_block));
+	tblock->id = tidCount++;
 	tblock->sp = uthread_ctx_alloc_stack();
 	tblock->context = malloc(sizeof(uthread_ctx_t));
 	//Make a thread block with a context pointer
