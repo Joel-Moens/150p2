@@ -19,10 +19,9 @@
 /* TODO Phase 2 */
 int tidCount = 0;
 queue_t tQueue;
-tQueue = queue_create();
 typedef struct thread_block {
 	uthread_t id;
-	uthrad_ctx_t *context;
+	uthread_ctx_t *context;
 	void * sp;
 	int state;
 }thread_block;
@@ -31,7 +30,6 @@ typedef struct thread_block {
 
 void uthread_init(void)
 {
-	
 	thread_block * tmain;
 	tmain = (thread_block *)malloc(sizeof(thread_block));
 	tmain->id = queue_length(tQueue);
@@ -44,6 +42,16 @@ void uthread_init(void)
 void uthread_yield(void)
 {
 	/* TODO Phase 2 */
+	if (queue_length(tQueue) != 0) {
+		void** tbc;
+		queue_dequeue(tQueue, tbc);
+		queue_enqueue(tQueue, *tbc);
+		perror("First thread dequeued and enqueued (ie yield)")
+	} // there are threads to yield
+	else {
+		perror("No threads in queue");
+	} // error no thread to yield
+
 }
 
 uthread_t uthread_self(void)
@@ -72,6 +80,9 @@ int uthread_create(uthread_func_t func, void *arg)
 void uthread_exit(int retval)
 {
 	/* TODO Phase 2 */
+
+
+
 }
 
 int uthread_join(uthread_t tid, int *retval)
