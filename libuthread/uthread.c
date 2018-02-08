@@ -18,12 +18,28 @@
 
 /* TODO Phase 2 */
 int tidCount = 0;
+queue_t tQueue;
+tQueue = queue_create();
 typedef struct thread_block {
 	uthread_t id;
 	uthrad_ctx_t *context;
 	void * sp;
 	int state;
 }thread_block;
+
+
+
+void uthread_init(void)
+{
+	
+	thread_block * tmain;
+	tmain = (thread_block *)malloc(sizeof(thread_block));
+	tmain->id = queue_length(tQueue);
+	tmain->sp = uthread_ctx_alloc_stack();
+	tmain->context = malloc(sizeof(uthread_ctx_t));
+	queue_enqueue(&tmain);
+
+}
 
 void uthread_yield(void)
 {
@@ -38,9 +54,12 @@ uthread_t uthread_self(void)
 int uthread_create(uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
-
+	if(queue_length(tQueue) == 0)
+	{
+		init_thread();
+	}
 	thread_block* tblock;
-	tblock = malloc(sizeof(thread_block));
+	tblock = (thread_block *)malloc(sizeof(thread_block));
 	tblock->id = tidCount++;
 	tblock->sp = uthread_ctx_alloc_stack();
 	tblock->context = malloc(sizeof(uthread_ctx_t));
@@ -60,4 +79,6 @@ int uthread_join(uthread_t tid, int *retval)
 	/* TODO Phase 2 */
 	/* TODO Phase 3 */
 }
+
+
 
