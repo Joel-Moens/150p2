@@ -19,10 +19,10 @@
 /* TODO Phase 2 */
 int tidCount = 0;
 queue_t tQueue;
-tQueue = queue_create();
+
 typedef struct thread_block {
 	uthread_t id;
-	uthrad_ctx_t *context;
+	uthread_ctx_t *context;
 	void * sp;
 	int state;
 }thread_block;
@@ -31,54 +31,63 @@ typedef struct thread_block {
 
 void uthread_init(void)
 {
-	
+	tQueue = queue_create();
 	thread_block * tmain;
 	tmain = (thread_block *)malloc(sizeof(thread_block));
 	tmain->id = queue_length(tQueue);
 	tmain->sp = uthread_ctx_alloc_stack();
 	tmain->context = malloc(sizeof(uthread_ctx_t));
-	queue_enqueue(&tmain);
+	queue_enqueue(tQueue, &tmain);
 
 }
 
-void uthread_yield(void)
-{
-	/* TODO Phase 2 */
-}
+ void uthread_yield(void)
+ {
+ 	/* TODO Phase 2 */
+ }
 
-uthread_t uthread_self(void)
-{
-	/* TODO Phase 2 */
-}
+ uthread_t uthread_self(void)
+ {
+ 	/* TODO Phase 2 */
+ }
 
 int uthread_create(uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
-	if(queue_length(tQueue) == 0)
+	if(tidCount == 0)
 	{
-		init_thread();
+		uthread_init();
+		tidCount = 1;
 	}
 	thread_block* tblock;
 	tblock = (thread_block *)malloc(sizeof(thread_block));
-	tblock->id = tidCount++;
+	tblock->id = queue_length(tQueue);
 	tblock->sp = uthread_ctx_alloc_stack();
 	tblock->context = malloc(sizeof(uthread_ctx_t));
 	//Make a thread block with a context pointer
 
 	//Call uthread_ctx_init with the new tblock and given arguments
 	uthread_ctx_init(tblock->context, tblock->sp, func, arg);
+	queue_enqueue(tQueue, &tblock);
+	return 0;
+
 }
 
-void uthread_exit(int retval)
-{
-	/* TODO Phase 2 */
-}
+ void uthread_exit(int retval)
+ {
+ 	/* TODO Phase 2 */
+ }
 
-int uthread_join(uthread_t tid, int *retval)
-{
-	/* TODO Phase 2 */
-	/* TODO Phase 3 */
-}
+ int uthread_join(uthread_t tid, int *retval)
+ {
+ 	/* TODO Phase 2 */
+ 	if(tid < 0 || tid == NULL)
+ 	{
+ 		return -1;
+ 	}
+ 	return 0;
+ 	/* TODO Phase 3 */
+ }
 
 
 
