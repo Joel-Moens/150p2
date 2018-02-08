@@ -1,6 +1,6 @@
 # Target library
 lib := libuthread.a
-ofiles := queue.o
+ofiles := queue.o preempt.o context.o uthread.o 
 
 CC := gcc
 ARC := ar rcs
@@ -8,7 +8,7 @@ CFLAGS := -Wall -Werror -g
 
 all: $(lib)
 #Make a .o for queue.c
-queue.o: queue.c queue.h
+%.o: %.c %.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 #Make a .o for preempt.c
 #Make a .o for context.c
@@ -16,7 +16,7 @@ queue.o: queue.c queue.h
 #Make a .o for uthread.c
 
 #Make a static library including the made .o files
-$(lib): queue.o
+$(lib): $(ofiles)
 	$(ARC) $(lib) $(ofiles)
 
 clean:
