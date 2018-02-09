@@ -23,18 +23,36 @@ queue_t queue_create(void)
 	return newQ;
 }
 
+int queue_iterate(queue_t queue, queue_func_t func, void *arg, void **data)
+{
+	/* TODO Phase 1 */
+	int index = 0;
+	node * temp = queue->head;
+	
+
+	while(index != queue->size)
+	{
+		func(queue,arg,temp->data);
+		temp = temp->next;
+		index++;
+	}
+	
+	return 0; 
+	// while index doesn't equal length
+}
+
 int queue_destroy(queue_t queue)
 {
 	/* TODO Phase 1 */
 	//Queue must be empty
 	if(queue == NULL)
 	{
-		printf("Destroy Error: Queue is NULL \n");
+		// printf("Destroy Error: Queue is NULL \n");
 		return -1;
 	}
 	if(queue->size != 0)
 	{
-		printf("Destroy Error: Queue not empty \n");
+		// printf("Destroy Error: Queue not empty \n");
 		return -1;
 	}
 	else
@@ -50,11 +68,11 @@ int queue_enqueue(queue_t queue, void *data)
 	//create new node pointer
 	if(queue != NULL)
 	{
-		printf("queue isn't null \n");
+		// printf("queue isn't null \n");
 	}
 	if(queue == NULL || data == NULL)
 	{
-		printf("Enqueue Error: Queue or Data is NULL \n");
+		// printf("Enqueue Error: Queue or Data is NULL \n");
 		return -1;
 	}
 	node * temp;
@@ -64,7 +82,7 @@ int queue_enqueue(queue_t queue, void *data)
 	{
 		queue->head = temp;
 		queue->tail = temp;
-		printf("Inserted %i as the first item \n", *(int*)queue->head->data);
+		// printf("Inserted %i as the first item \n", *(int*)queue->head->data);
 	}// If the queue is empty assign both head and tail to new node
 	else
 	{
@@ -83,15 +101,15 @@ int queue_dequeue(queue_t queue, void **data)
 	/* TODO Phase 1 */
 	if(data == NULL || queue == NULL)
 	{
-		printf("Dequeue Error: Queue or Data is NULL \n");
+		// printf("Dequeue Error: Queue or Data is NULL \n");
 		return -1;
 	}
 	node * temp;
 	temp = queue->head;	//Keep track of previous head pointer to free after
-	printf("Given Address: %p", data);
+	// printf("Given Address: %p", data);
 	*data = queue->head->data; //Data is equal to prev head data
-	printf("New Address: %p \n", *data);
-	printf("Queue->head->data is %i \n", *(int*)*data);
+	// printf("New Address: %p \n", *data);
+	// printf("Queue->head->data is %i \n", *(int*)*data);
 	queue->head = queue->head->next; //Head of queue becomes next in line
 	free(temp); //Free old head
 	temp = NULL;
@@ -104,7 +122,7 @@ int queue_delete(queue_t queue, void *data)
 	/* TODO Phase 1 */
 	if(queue == NULL || data == NULL || queue->size == 0)
 	{
-		printf("Delete Error: Queue is NULL, Data is NULL, or QSize is 0 \n");
+		// printf("Delete Error: Queue is NULL, Data is NULL, or QSize is 0 \n");
 		return -1; //Return: -1 if @queue or @data are NULL
 	}
 	node * temp;
@@ -115,6 +133,7 @@ int queue_delete(queue_t queue, void *data)
 		queue->head = temp->next;
 		free(temp);
 		temp = NULL;
+		queue->size--;
 		return 0;
 	} //Data was at the head remove the head link head to the next in line;
 	node * deleteN;
@@ -122,7 +141,7 @@ int queue_delete(queue_t queue, void *data)
 	{
 		if(temp->next->data == NULL)
 		{
-			printf("Delete Error: No Match \n");
+			// printf("Delete Error: No Match \n");
 			return -1; //Return: -1 if @data was not found in queue
 		} //There is no data in node end of queue
 		counter++;
@@ -132,36 +151,31 @@ int queue_delete(queue_t queue, void *data)
 	{
 		deleteN = queue->tail;
 		queue->tail = temp;
+
 		free(deleteN);
 		deleteN = NULL;
 	} //Data found at the end of the queue change the tail
 	else
 	{
 		deleteN = temp->next;
-		temp->next->next = temp->next;
+		temp->next = temp->next->next;
 		free(deleteN);
 		deleteN = NULL;
 	} //Otherwise remove the link in the queue for this item
+	queue->size--;
 	return 0;
 	
 
 
 }
 
-int queue_iterate(queue_t queue, queue_func_t func, void *arg, void **data)
-{
-	/* TODO Phase 1 */
-	//int index = 0;
-	return 0; 
-	// while index doesn't equal length
-}
 
 int queue_length(queue_t queue)
 {
 	/* TODO Phase 1 */
 	if(queue == NULL)
 	{
-		printf("Length Error: Queue is NULL \n");
+		// printf("Length Error: Queue is NULL \n");
 		return -1;
 	}
 	return queue->size;

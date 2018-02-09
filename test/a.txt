@@ -1,0 +1,35 @@
+queue isn't null 
+Inserted 1 as the first item 
+1
+Given Address: 0x614840New Address: 0x60b420 
+Queue->head->data is 1 
+queue isn't null 
+Inserted 0 as the first item 
+queue isn't null 
+2
+Given Address: 0x61cc70New Address: 0x603030 
+Queue->head->data is 0 
+queue isn't null 
+2
+Given Address: 0x614840New Address: 0x614860 
+Queue->head->data is 2 
+queue isn't null 
+queue isn't null 
+3
+Given Address: 0x6254b0New Address: 0x60b420 
+Queue->head->data is 1 
+queue isn't null 
+thread1
+3
+Given Address: 0x61cc70New Address: 0x603030 
+Queue->head->data is 0 
+queue isn't null 
+3
+Given Address: 0x614840New Address: 0x61d0a0 
+Queue->head->data is 3 
+queue isn't null 
+3
+Given Address: 0x6254d0New Address: 0x614860 
+Queue->head->data is 2 
+queue isn't null 
+thread2

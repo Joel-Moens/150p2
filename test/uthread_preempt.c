@@ -19,6 +19,9 @@ int thread3(void* arg)
 {
 	uthread_yield();
 	printf("thread%d\n", uthread_self());
+	while (1) {
+		// while loop should be interrupt
+	}
 	return 0;
 }
 
@@ -32,7 +35,9 @@ int thread2(void* arg)
 
 int thread1(void* arg)
 {
-
+	while (1) {
+		// while loop should be interrupt
+	}
 	printf("thread%d\n", uthread_self());
 	return 0;
 }
